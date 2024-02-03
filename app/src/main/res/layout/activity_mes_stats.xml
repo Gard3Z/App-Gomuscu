@@ -1,0 +1,30 @@
+<!-- res/layout/activity_mes_stats.xml -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MesStatsActivity">
+
+    <Spinner
+        android:id="@+id/spinner_type_entrainement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
+    <Spinner
+        android:id="@+id/spinner_exercices"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinner_type_entrainement"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
+    <com.anychart.AnyChartView
+        android:id="@+id/any_chart_view"
+        android:layout_width="400dp"
+        android:layout_height="400dp" />
+
+
+</RelativeLayout>

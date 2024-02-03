@@ -1,0 +1,16 @@
+{
+  "haut_du_corps": [
+    {"nom": "Pompes"},
+    {"nom": "Tractions"},
+    {"nom": "Développé couché"},
+    {"nom": "Élévations latérales"}
+    // Ajoutez d'autres exercices du haut du corps
+  ],
+  "bas_du_corps": [
+    {"nom": "Squats"},
+    {"nom": "Fentes"},
+    {"nom": "Extensions de jambe"},
+    {"nom": "Soulevé de terre"}
+    // Ajoutez d'autres exercices du bas du corps
+  ]
+}

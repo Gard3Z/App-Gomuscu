@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Go muscu</string>
+    <string name="choose_item">Sélectionnez un élément</string>
+    <string-array name="spinner_items">
+        <item>Exercice</item>
+        <item>Option 1</item>
+        <item>Option 2</item>
+        <item>Option 3</item>
+        <item>Option 4</item>
+    </string-array>
+</resources>
+
+

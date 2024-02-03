@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@drawable/logoappli"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:onClick="OnclickLogo"></ImageView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="300dp">
+
+            <Spinner
+                android:id="@+id/spinner_type_entrainement"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/spinner_items"
+                android:layout_marginBottom="20dp"></Spinner>
+
+            <LinearLayout
+                android:id="@+id/date"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/spinner_type_entrainement"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date"
+                    android:layout_marginTop="16dp" />
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="0dp"
+                    android:textAlignment="center"
+                    android:layout_marginLeft="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#fc0"
+                    android:layout_marginTop="16dp"/>
+
+            </LinearLayout>
+
+            <ScrollView
+                android:layout_below="@+id/date"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/button_add_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#f00">
+
+                <LinearLayout
+                    android:id="@+id/line_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="vertical"
+                    android:background="#ff0"
+                    android:maxHeight="40dp">
+
+
+
+                    <!-- Votre contenu, y compris les lignes ajoutées dynamiquement -->
+                    <include layout="@layout/row_layout"></include>
+
+
+                </LinearLayout>
+            </ScrollView>
+
+            <Button
+                android:id="@+id/button_add_line"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@id/button_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:onClick="onAddLineClick"
+                android:text="Ajouter une ligne"
+                android:layout_gravity="center_horizontal"/>
+
+            <Button
+                android:id="@+id/button_save"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/button_custom"></Button>
+
+
+
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

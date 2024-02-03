@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="types_entrainement">
+        <item>Haut du corps</item>
+        <item>Bas du corps</item>
+    </array>
+</resources>
