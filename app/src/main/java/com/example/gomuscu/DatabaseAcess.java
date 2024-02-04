@@ -33,14 +33,19 @@ public class DatabaseAcess {
     }
 
 
-    public String getNombreExos(String exos){
-        c=db.rawQuery("SELECT COUNT(DISTINCT id_exo) AS nombre_d_ids_differents FROM exos",null);
+    public String getNombreExos(String exos) {
+        c = db.rawQuery("SELECT COUNT(DISTINCT id_exo) AS nombre_d_ids_differents FROM exos", null);
 
-        if (c.getCount()!=1){
+        if (c.getCount() != 1) {
             return "erreur";
         }
+
         c.moveToFirst();
-        return c.getString(0);
+        String result = c.getString(0);
+
+        // Ne fermez pas la base de données ici
+
+        return result;
     }
 
     public String getExosHaut(){
@@ -66,6 +71,40 @@ public class DatabaseAcess {
         }
 
         return result;
+    }
+
+    public List<SeanceDetails> getAllSeances() {
+        List<SeanceDetails> seancesList = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT seance.id_seance, seance.date, GROUP_CONCAT(exos.description) AS description " +
+                "FROM seance " +
+                "JOIN exos_seance ON seance.id_seance = exos_seance.id_seance " +
+                "JOIN exos ON exos_seance.id_exo = exos.id_exo " +
+                "GROUP BY seance.id_seance", null);
+
+        while (cursor.moveToNext()) {
+            long seanceId = cursor.getLong(cursor.getColumnIndex("id_seance"));
+            String date = cursor.getString(cursor.getColumnIndex("date"));
+            String description = cursor.getString(cursor.getColumnIndex("description"));
+
+            seancesList.add(new SeanceDetails(seanceId, date, description));
+        }
+
+        cursor.close();
+        return seancesList;
+    }
+
+    public ExoDetails getExoDetailsForSeance(long idSeance) {
+        ExoDetails exoDetails = new ExoDetails();
+
+        // Remplacez "id_exo" par le nom de la colonne de clé étrangère dans exos_seance
+        c = db.rawQuery("SELECT exos.nom FROM exos_seance JOIN exos ON exos_seance.id_exo = exos.id_exo WHERE exos_seance.id_seance = ?", new String[]{String.valueOf(idSeance)});
+
+        if (c.moveToFirst()) {
+            exoDetails.setNomExo(c.getString(0));
+        }
+
+        c.close();
+        return exoDetails;
     }
 
 
@@ -109,6 +148,12 @@ public class DatabaseAcess {
 
         // Insérez les détails de l'exercice associé à la séance
         return db.insert("exos_details", null, values);
+    }
+
+    public void closeDatabase() {
+        if (db != null) {
+            db.close();
+        }
     }
 
 }
