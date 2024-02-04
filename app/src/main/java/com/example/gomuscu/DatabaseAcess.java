@@ -93,18 +93,20 @@ public class DatabaseAcess {
         return seancesList;
     }
 
-    public ExoDetails getExoDetailsForSeance(long idSeance) {
-        ExoDetails exoDetails = new ExoDetails();
+    public List<ExoDetails> getExoDetailsForSeance(long idSeance) {
+        List<ExoDetails> exoDetailsList = new ArrayList<>();
 
         // Remplacez "id_exo" par le nom de la colonne de clé étrangère dans exos_seance
         c = db.rawQuery("SELECT exos.nom FROM exos_seance JOIN exos ON exos_seance.id_exo = exos.id_exo WHERE exos_seance.id_seance = ?", new String[]{String.valueOf(idSeance)});
 
-        if (c.moveToFirst()) {
+        while (c.moveToNext()) {
+            ExoDetails exoDetails = new ExoDetails();
             exoDetails.setNomExo(c.getString(0));
+            exoDetailsList.add(exoDetails);
         }
 
         c.close();
-        return exoDetails;
+        return exoDetailsList;
     }
 
 

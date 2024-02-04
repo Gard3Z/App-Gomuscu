@@ -94,18 +94,20 @@ public class MesSeancesActivity extends AppCompatActivity {
         // Appliquez les paramètres de mise en page au bouton
         button.setLayoutParams(layoutParams);
     }
-    public void showBottomSheetDialog(SeanceDetails seanceDetails) {
+    public void showBottomSheetDialog(SeanceDetails seance) {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
         View bottomSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_layout, null);
 
-        TextView nomExoTextView = bottomSheetView.findViewById(R.id.nom_exo);
+        LinearLayout exerciseContainer = bottomSheetView.findViewById(R.id.exerciseContainer);
 
-        // Récupérer les détails de l'exercice pour la séance donnée
-        ExoDetails exoDetails = db.getExoDetailsForSeance(seanceDetails.getIdSeance());
+        // Récupérer les détails de tous les exercices pour la séance donnée
+        List<ExoDetails> exoDetailsList = db.getExoDetailsForSeance(seance.getIdSeance());
 
-        // Afficher le nom de l'exercice dans le BottomSheet
-        if (exoDetails != null) {
+        // Afficher les noms des exercices dans le BottomSheet
+        for (ExoDetails exoDetails : exoDetailsList) {
+            TextView nomExoTextView = new TextView(this);
             nomExoTextView.setText(exoDetails.getNomExo());
+            exerciseContainer.addView(nomExoTextView);
         }
 
         bottomSheetDialog.setContentView(bottomSheetView);

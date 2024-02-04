@@ -5,12 +5,17 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/nom_exo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@android:color/black" />
+    <LinearLayout
+        android:id="@+id/exerciseContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!-- Cette vue sera utilisée pour afficher les noms des exercices -->
+
+
+
+
+    </LinearLayout>
 
         <!-- Ajoutez d'autres composants au besoin -->
 
