@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/exerciseContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!-- Cette vue sera utilisée pour afficher les noms des exercices -->
+
+
+
+
+    </LinearLayout>
+
+        <!-- Ajoutez d'autres composants au besoin -->
+
+    </LinearLayout>

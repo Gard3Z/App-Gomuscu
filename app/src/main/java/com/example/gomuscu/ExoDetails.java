@@ -3,8 +3,12 @@ package com.example.gomuscu;
 public class ExoDetails {
     private long idExoDetails;
     private long idExo;
+
+    private String nomExo;
     private long idSeance;
     private int repetitions;
+
+    private String description;
 
     // Séries et poids
     private int serie1;
@@ -13,6 +17,7 @@ public class ExoDetails {
     private double poids1;
     private double poids2;
     private double poids3;
+
 
     // Constructeurs, getters et setters...
 
@@ -34,9 +39,25 @@ public class ExoDetails {
         this.idExo = idExo;
     }
 
+    public String getNomExo() {
+        return nomExo;
+    }
+
+    public void setNomExo(String nomExo) {
+        this.nomExo = nomExo;
+    }
+
     // Getter et setter pour idSeance
     public long getIdSeance() {
         return idSeance;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setIdSeance(long idSeance) {
@@ -106,3 +127,4 @@ public class ExoDetails {
         this.poids3 = poids3;
     }
 }
+

@@ -105,7 +105,7 @@ public class PerfSeanceActivity extends AppCompatActivity {
             List<String> selectedExos;
             if (selectedTypeIndex == 0) {
                 // Haut du corps
-                selectedExos = Collections.singletonList(db.getExosHaut());
+                selectedExos = db.getExosHaut();
             } else {
                 // Bas du corps
                 selectedExos = db.getExosBas();
@@ -177,12 +177,23 @@ public class PerfSeanceActivity extends AppCompatActivity {
         // Trouvez le Spinner des exercices dans la nouvelle ligne
         Spinner spinnerExercices = rowLayout.findViewById(R.id.spinner_exercices);
 
-        // Utilisez la fonction getExosHaut pour obtenir les exercices du haut du corps
-        hautDuCorpsExo = db.getExosHaut();
+        // Obtenez la sélection actuelle du Spinner principal (type d'entraînement)
+        Spinner spinnerTypeEntrainement = findViewById(R.id.spinner_type_entrainement);
+        int selectedTypeIndex = spinnerTypeEntrainement.getSelectedItemPosition();
 
-        // Mettez à jour le Spinner des exercices avec le nom des exercices du haut du corps
+        // Obtenez la liste appropriée d'exercices en fonction du type d'entraînement sélectionné
+        List<String> selectedExos;
+        if (selectedTypeIndex == 0) {
+            // Haut du corps
+            selectedExos = db.getExosHaut();
+        } else {
+            // Bas du corps
+            selectedExos = db.getExosBas();
+        }
+
+        // Mettez à jour le Spinner des exercices avec le nom des exercices appropriés
         ArrayAdapter<String> adapterExercices = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, Collections.singletonList(hautDuCorpsExo));
+                this, android.R.layout.simple_spinner_item, selectedExos);
         adapterExercices.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerExercices.setAdapter(adapterExercices);
 
