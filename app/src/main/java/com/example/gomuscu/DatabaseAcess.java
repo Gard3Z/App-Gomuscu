@@ -48,19 +48,24 @@ public class DatabaseAcess {
         return result;
     }
 
-    public String getExosHaut(){
-        c=db.rawQuery("SELECT nom FROM exos WHERE description LIKE '%Haut du corps%'", null);
+    public List<String> getExosHaut(){
+        List<String> result = new ArrayList<>();
+        c = db.rawQuery("SELECT nom FROM exos WHERE type_exo = 1", null);
 
-        if (c.getCount()!=1){
-            return "erreur";
+        if (c.getCount() == 0){
+            return result; // Ou vous pouvez retourner "erreur" selon vos besoins.
         }
-        c.moveToFirst();
-        return c.getString(0);
+
+        while (c.moveToNext()) {
+            result.add(c.getString(0));
+        }
+
+        return result;
     }
 
     public List<String> getExosBas(){
         List<String> result = new ArrayList<>();
-        c = db.rawQuery("SELECT nom FROM exos WHERE description LIKE '%Bas du corps%'", null);
+        c = db.rawQuery("SELECT nom FROM exos WHERE type_exo = 0", null);
 
         if (c.getCount() == 0){
             return result; // Ou vous pouvez retourner "erreur" selon vos besoins.
