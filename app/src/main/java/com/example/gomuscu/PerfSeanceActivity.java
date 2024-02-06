@@ -2,6 +2,7 @@ package com.example.gomuscu;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -208,24 +209,36 @@ public class PerfSeanceActivity extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String currentDate = dateFormat.format(new Date());
 
-        // Insérez la séance dans la base de données
-        long seanceId = db.insertSeance(currentDate);
+        // Créez une seule séance pour tous les exercices
+        long seanceId = db.insertSeance(currentDate, "Type de séance à déterminer");
 
         // Parcourez toutes les lignes pour récupérer les exercices sélectionnés
         for (int i = 0; i < containerLayout.getChildCount(); i++) {
             View rowLayout = containerLayout.getChildAt(i);
             Spinner spinnerExercices = rowLayout.findViewById(R.id.spinner_exercices);
+            EditText etPoids = rowLayout.findViewById(R.id.et_poids);
+            EditText etSeries = rowLayout.findViewById(R.id.et_series);
 
             String selectedExo = (String) spinnerExercices.getSelectedItem();
+            double poids = Double.parseDouble(etPoids.getText().toString());
+            int serie = Integer.parseInt(etSeries.getText().toString());
 
-            // Insérez l'exercice associé à la séance
-            db.insertExosSeance(seanceId, selectedExo);
+            Log.d("ExerciseDetails", "Exercise: " + selectedExo + ", Weight: " + poids + ", Sets: " + serie);
+
+            // Récupérez l'ID de l'exercice depuis la base de données en fonction du nom
+            long idExo = db.getExoIdByName(selectedExo);
 
             // Récupérez les détails de l'exercice depuis la base de données
             ExoDetails exoDetails = db.getExoDetails(selectedExo);
 
+            // Déterminez le type de séance en fonction de type_exo
+            String seanceType = (exoDetails.getTypeExo() == 0) ? "Bas du corps" : "Haut du corps";
+
+            // Insérez l'exercice associé à la séance en utilisant le même ID de séance pour tous les exercices
+            long exosSeanceId = db.insertExosSeance(seanceId, idExo);
+
             // Insérez les détails de l'exercice associé à la séance
-            db.insertExosDetails(seanceId, exoDetails.getIdExo(), exoDetails.getDescription());
+            db.insertExosDetails(exosSeanceId, poids, serie);
         }
 
         // Affichez un message ou effectuez d'autres actions après avoir sauvegardé les données

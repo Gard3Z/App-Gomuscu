@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,12 +102,18 @@ public class DatabaseAcess {
     public List<ExoDetails> getExoDetailsForSeance(long idSeance) {
         List<ExoDetails> exoDetailsList = new ArrayList<>();
 
-        // Remplacez "id_exo" par le nom de la colonne de clé étrangère dans exos_seance
-        c = db.rawQuery("SELECT exos.nom FROM exos_seance JOIN exos ON exos_seance.id_exo = exos.id_exo WHERE exos_seance.id_seance = ?", new String[]{String.valueOf(idSeance)});
+        // Utilisez JOIN pour récupérer les détails de exo_details
+        c = db.rawQuery("SELECT exos.nom, exo_details.poids, exo_details.serie " +
+                "FROM exos_seance " +
+                "JOIN exos ON exos_seance.id_exo = exos.id_exo " +
+                "LEFT JOIN exo_details ON exos_seance.id_details = exo_details.id_details " +
+                "WHERE exos_seance.id_seance = ?", new String[]{String.valueOf(idSeance)});
 
         while (c.moveToNext()) {
             ExoDetails exoDetails = new ExoDetails();
             exoDetails.setNomExo(c.getString(0));
+            exoDetails.setPoids(c.getDouble(1));
+            exoDetails.setSerie(c.getInt(2));
             exoDetailsList.add(exoDetails);
         }
 
@@ -115,21 +122,41 @@ public class DatabaseAcess {
     }
 
 
-    public long insertSeance(String date) {
+    public long insertSeance(String date, String type) {
         ContentValues values = new ContentValues();
         values.put("date", date);
+        values.put("type", type);
 
         // Insérez la séance et récupérez son ID
         return db.insert("seance", null, values);
     }
 
-    public long insertExosSeance(long seanceId, String nomExo) {
+    public long insertExosSeance(long seanceId, long idExo) {
         ContentValues values = new ContentValues();
         values.put("id_seance", seanceId);
-        values.put("nom_exo", nomExo);
+        values.put("id_exo", idExo);
 
         // Insérez l'exercice associé à la séance
-        return db.insert("exos_seance", null, values);
+        long result = db.insert("exos_seance", null, values);
+
+        // Vérifiez si l'insertion s'est bien déroulée
+        if (result == -1) {
+            // Gérer l'erreur (journalisation, affichage d'un message, etc.)
+            // Vous pouvez également lancer une exception si vous le souhaitez.
+        }
+
+        return result;
+    }
+    public long getExoIdByName(String nomExo) {
+        Cursor cursor = db.rawQuery("SELECT id_exo FROM exos WHERE nom = ?", new String[]{nomExo});
+
+        long idExo = -1; // Valeur par défaut si l'exercice n'est pas trouvé
+        if (cursor.moveToFirst()) {
+            idExo = cursor.getLong(cursor.getColumnIndex("id_exo"));
+        }
+
+        cursor.close();
+        return idExo;
     }
 
     public ExoDetails getExoDetails(String nomExo) {
@@ -147,14 +174,19 @@ public class DatabaseAcess {
         return exoDetails;
     }
 
-    public long insertExosDetails(long exosSeanceId, long idExo, String description) {
+
+
+    public long insertExosDetails(long idDetails, double poids, int serie) {
+
         ContentValues values = new ContentValues();
-        values.put("id_exos_seance", exosSeanceId);
-        values.put("id_exo", idExo);
-        values.put("description", description);
+        values.put("id_details", idDetails);
+        values.put("poids", poids);
+        values.put("serie", serie);
+
+        Log.d("DatabaseAcess", "Inserting into exo_details: id_details=" + idDetails + ", poids=" + poids + ", serie=" + serie);
 
         // Insérez les détails de l'exercice associé à la séance
-        return db.insert("exos_details", null, values);
+        return db.insert("exo_details", null, values);
     }
 
     public void closeDatabase() {
