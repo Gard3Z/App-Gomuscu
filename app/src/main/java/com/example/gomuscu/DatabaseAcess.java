@@ -103,7 +103,7 @@ public class DatabaseAcess {
         List<ExoDetails> exoDetailsList = new ArrayList<>();
 
         // Utilisez JOIN pour récupérer les détails de exo_details
-        c = db.rawQuery("SELECT exos.nom, exo_details.poids, exo_details.serie " +
+        c = db.rawQuery("SELECT exos.nom, exos.type_exo, exo_details.poids, exo_details.serie " +
                 "FROM exos_seance " +
                 "JOIN exos ON exos_seance.id_exo = exos.id_exo " +
                 "LEFT JOIN exo_details ON exos_seance.id_details = exo_details.id_details " +
@@ -112,8 +112,9 @@ public class DatabaseAcess {
         while (c.moveToNext()) {
             ExoDetails exoDetails = new ExoDetails();
             exoDetails.setNomExo(c.getString(0));
-            exoDetails.setPoids(c.getDouble(1));
-            exoDetails.setSerie(c.getInt(2));
+            exoDetails.setTypeExo(c.getInt(1));
+            exoDetails.setPoids(c.getDouble(2));
+            exoDetails.setSerie(c.getInt(3));
             exoDetailsList.add(exoDetails);
         }
 

@@ -2,7 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    style="@style/BottomSheetStyle">
+
+    <TextView
+        android:id="@+id/seanceHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text=""
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/primary"
+        android:background="@color/secondary" />
 
     <TableLayout
         android:id="@+id/tableLayout"
@@ -16,17 +28,24 @@
             <TextView
                 android:text="Exercice"
                 android:textStyle="bold"
-                android:padding="8dp" />
+                android:padding="2dp"
+                android:textColor="@color/secondary" />
+
 
             <TextView
+                android:layout_width="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="8dp"
                 android:text="Poids"
                 android:textStyle="bold"
-                android:padding="8dp" />
+                android:textColor="@color/secondary" />
 
             <TextView
                 android:text="Série"
                 android:textStyle="bold"
-                android:padding="8dp" />
+                android:gravity="center_horizontal"
+                android:padding="8dp"
+                android:textColor="@color/secondary" />
         </TableRow>
 
         <!-- Les lignes du tableau seront ajoutées dynamiquement dans le code Java -->
