@@ -206,7 +206,7 @@ public class PerfSeanceActivity extends AppCompatActivity {
 
     public void onSaveButtonClick(View view) {
         // Obtenez la date actuelle pour la séance
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         String currentDate = dateFormat.format(new Date());
 
         // Créez une seule séance pour tous les exercices
