@@ -1,22 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    style="@style/BottomSheetStyle">
+
+    <TextView
+        android:id="@+id/seanceHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:text=""
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/primary"
+        android:background="@color/secondary" />
 
-    <LinearLayout
-        android:id="@+id/exerciseContainer"
+    <TableLayout
+        android:id="@+id/tableLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <!-- Cette vue sera utilisée pour afficher les noms des exercices -->
+        android:stretchColumns="*"
+        android:layout_margin="16dp">
+
+        <!-- En-tête du tableau (colonnes "Exercice", "Poids", "Série") -->
+        <TableRow>
+            <TextView
+                android:text="Exercice"
+                android:textStyle="bold"
+                android:padding="2dp"
+                android:textColor="@color/secondary" />
 
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="8dp"
+                android:text="Poids"
+                android:textStyle="bold"
+                android:textColor="@color/secondary" />
 
+            <TextView
+                android:text="Série"
+                android:textStyle="bold"
+                android:gravity="center_horizontal"
+                android:padding="8dp"
+                android:textColor="@color/secondary" />
+        </TableRow>
 
-    </LinearLayout>
+        <!-- Les lignes du tableau seront ajoutées dynamiquement dans le code Java -->
+    </TableLayout>
 
-        <!-- Ajoutez d'autres composants au besoin -->
-
-    </LinearLayout>
+</LinearLayout>
