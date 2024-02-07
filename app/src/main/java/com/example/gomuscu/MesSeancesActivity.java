@@ -103,16 +103,31 @@ public class MesSeancesActivity extends AppCompatActivity {
         // Récupérer les détails de tous les exercices pour la séance donnée
         List<ExoDetails> exoDetailsList = db.getExoDetailsForSeance(seance.getIdSeance());
 
-        // Afficher les noms des exercices dans le BottomSheet
+        // Afficher les noms, poids et séries des exercices dans le BottomSheet
         for (ExoDetails exoDetails : exoDetailsList) {
+            LinearLayout exerciseDetailsLayout = new LinearLayout(this);
+            exerciseDetailsLayout.setOrientation(LinearLayout.VERTICAL);
+
             TextView nomExoTextView = new TextView(this);
-            nomExoTextView.setText(exoDetails.getNomExo());
-            exerciseContainer.addView(nomExoTextView);
+            nomExoTextView.setText("Exercice: " + exoDetails.getNomExo());
+            exerciseDetailsLayout.addView(nomExoTextView);
+
+            TextView poidsTextView = new TextView(this);
+            poidsTextView.setText("Poids: " + exoDetails.getPoids());
+            exerciseDetailsLayout.addView(poidsTextView);
+
+            TextView serieTextView = new TextView(this);
+            serieTextView.setText("Série: " + exoDetails.getSerie());
+            exerciseDetailsLayout.addView(serieTextView);
+
+            // Ajouter la mise en page des détails de l'exercice à l'interface utilisateur
+            exerciseContainer.addView(exerciseDetailsLayout);
         }
 
         bottomSheetDialog.setContentView(bottomSheetView);
         bottomSheetDialog.show();
     }
+
 
 
 
