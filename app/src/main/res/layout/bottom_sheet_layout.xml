@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TableLayout
+        android:id="@+id/tableLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:stretchColumns="*"
+        android:layout_margin="16dp">
 
-    <LinearLayout
-        android:id="@+id/exerciseContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <!-- Cette vue sera utilisée pour afficher les noms des exercices -->
+        <!-- En-tête du tableau (colonnes "Exercice", "Poids", "Série") -->
+        <TableRow>
+            <TextView
+                android:text="Exercice"
+                android:textStyle="bold"
+                android:padding="8dp" />
 
+            <TextView
+                android:text="Poids"
+                android:textStyle="bold"
+                android:padding="8dp" />
 
+            <TextView
+                android:text="Série"
+                android:textStyle="bold"
+                android:padding="8dp" />
+        </TableRow>
 
+        <!-- Les lignes du tableau seront ajoutées dynamiquement dans le code Java -->
+    </TableLayout>
 
-    </LinearLayout>
-
-        <!-- Ajoutez d'autres composants au besoin -->
-
-    </LinearLayout>
+</LinearLayout>
