@@ -20,13 +20,22 @@
         android:id="@+id/et_poids"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:hint="Poids" />
+        android:hint="Poids"
+        android:textColorHint="@color/primary"
+        android:textColor="@color/primary"
+        android:inputType="numberDecimal"
+        android:gravity="start|end"/>
 
     <EditText
         android:id="@+id/et_series"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:hint="Séries"
-        android:layout_marginLeft="30dp"/>
+        android:textColorHint="@color/primary"
+        android:textColor="@color/primary"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:inputType="numberDecimal"
+        android:gravity="end"/>
     </LinearLayout>
 

@@ -4,12 +4,15 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -35,6 +38,7 @@ public class PerfSeanceActivity extends AppCompatActivity {
     private TextView tvDate;
     private DatabaseAcess db;
     private String hautDuCorpsExo ="";
+
 
 
     @Override
@@ -89,6 +93,7 @@ public class PerfSeanceActivity extends AppCompatActivity {
         }
 
     }
+
 
     @Override
     protected void onDestroy() {
