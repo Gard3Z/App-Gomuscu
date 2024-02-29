@@ -43,12 +43,15 @@ public class MesStatsActivity extends AppCompatActivity {
     private com.anychart.charts.Cartesian lineChart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mes_stats);
 
         db = DatabaseAcess.getInstance(getApplicationContext());
         db.open();
+
+        anyChartView = findViewById(R.id.any_chart_view);
+        lineChart = AnyChart.line();
+
 
         String json = loadJSONFromResource(R.raw.exercices);
 
@@ -86,13 +89,17 @@ public class MesStatsActivity extends AppCompatActivity {
                 public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                     // Lorsqu'un exercice est sélectionné, récupérez le nom de l'exercice
                     String selectedExo = (String) parentView.getItemAtPosition(position);
-                    createGraph(selectedExo);
+                    Log.d("DEBUG", "selected exo onitem"+ selectedExo);
+                            createGraph(selectedExo);
+
 
                     // Appelez la fonction getStats avec le nom de l'exercice sélectionné
-                    if (selectedExo != "bench") {
+                    if (!"bench".equals(selectedExo)) {
                         //getStats(selectedExo);
-                        anyChartView.clear();
+                        //anyChartView.clear();
                         createGraph(selectedExo);
+                        Log.d("DEBUG", "selected exo onitem condition"+ selectedExo);
+                        //updateGraph(selectedExo);
 
 
 
@@ -116,6 +123,7 @@ public class MesStatsActivity extends AppCompatActivity {
     }
 
     private void createGraph(String exerciseName) {
+        anyChartView.clear();
         // Supposons que vous ayez une liste d'objets Performance pour chaque séance
         List<Performance> performances = db.getStats(exerciseName);
 
@@ -128,8 +136,7 @@ public class MesStatsActivity extends AppCompatActivity {
         }
 
         // Initialiser la vue de graphique et le graphique une seule fois dans onCreate
-        AnyChartView anyChartView = findViewById(R.id.any_chart_view);
-        com.anychart.charts.Cartesian lineChart = AnyChart.line();
+        //com.anychart.charts.Cartesian lineChart = AnyChart.line();
 
         // Ajouter les données au graphique
         lineChart.data(data);
@@ -139,12 +146,34 @@ public class MesStatsActivity extends AppCompatActivity {
         lineChart.xAxis(0).title("Date");
         lineChart.yAxis(0).title("Poids (kg)");
 
+        lineChart.background("#2C3950");
+
         // Définir le graphique sur la vue
         anyChartView.setChart(lineChart);
 
         // Afficher le graphique
         anyChartView.invalidate();
     }
+
+    private void updateGraph(String exerciseName) {
+        anyChartView.clear();
+        // Supposons que vous ayez une liste d'objets Performance pour chaque séance
+        List<Performance> performances = db.getStats(exerciseName);
+
+        // Créer une liste pour stocker les données du graphique
+        List<DataEntry> data2 = new ArrayList<>();
+
+        // Remplir la liste de données avec les performances
+        for (Performance performance : performances) {
+            data2.add(new ValueDataEntry(performance.getDate(), performance.getWeight()));
+        }
+
+        // Ajouter les données au graphique
+        lineChart.data(data2);
+        anyChartView.invalidate();
+
+    }
+
 
 
     // Méthode factice pour simuler des données de performance
