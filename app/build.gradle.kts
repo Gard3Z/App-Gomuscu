@@ -33,7 +33,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven("https://jitpack.io") // Ajoutez le dépôt ici
+        maven ("https://jitpack.io") // Ajoutez le dépôt ici
     }
 
 }

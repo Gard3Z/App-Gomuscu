@@ -79,6 +79,125 @@ public class DatabaseAcess {
         return result;
     }
 
+    public List<MesStatsActivity.Performance> getStats(String nomExos) {
+        List<MesStatsActivity.Performance> performances = new ArrayList<>();
+
+        // Supposons que "db" est une instance de SQLiteDatabase
+
+        // Utilisez des paramètres dans la requête pour éviter les attaques par injection SQL
+        Cursor cursor = db.rawQuery("SELECT id_exo FROM exos WHERE nom = ?", new String[]{nomExos});
+
+        try {
+            if (cursor.moveToFirst()) {
+                // Récupérez la première valeur trouvée
+                String result = cursor.getString(cursor.getColumnIndex("id_exo"));
+
+                // Utilisez le résultat de la première requête pour effectuer une deuxième requête
+                if (result != null) {
+                    // Deuxième requête pour récupérer les id_details et id_seance de la table exos_seance, triée par date
+                    Cursor secondCursor = db.rawQuery(
+                            "SELECT id_details, id_seance " +
+                                    "FROM exos_seance " +
+                                    "WHERE id_exo = ? " +
+                                    "ORDER BY (SELECT date FROM seance WHERE id_seance = exos_seance.id_seance) DESC " +
+                                    "LIMIT 10", new String[]{result});
+
+                    try {
+                        List<String> uniqueSeanceIds = new ArrayList<>();
+
+                        while (secondCursor.moveToNext()) {
+                            // Récupérez les valeurs de la deuxième requête
+                            String idDetails = secondCursor.getString(secondCursor.getColumnIndex("id_details"));
+                            String idSeance = secondCursor.getString(secondCursor.getColumnIndex("id_seance"));
+
+                            // Vérifiez si cette séance a déjà été traitée
+                            if (!uniqueSeanceIds.contains(idSeance)) {
+                                // Ajoutez l'ID de la séance à la liste pour éviter les doublons
+                                uniqueSeanceIds.add(idSeance);
+
+                                // Troisième requête pour récupérer le poids associé à id_details dans la table exos_details
+                                Cursor thirdCursor = db.rawQuery(
+                                        "SELECT poids FROM exo_details WHERE id_details = ?",
+                                        new String[]{idDetails});
+
+                                try {
+                                    if (thirdCursor.moveToFirst()) {
+                                        // Récupérez le poids associé à id_details
+                                        double poids = thirdCursor.getDouble(thirdCursor.getColumnIndex("poids"));
+
+                                        // Quatrième requête pour récupérer la date de la séance
+                                        Cursor fourthCursor = db.rawQuery(
+                                                "SELECT date FROM seance WHERE id_seance = ?",
+                                                new String[]{idSeance});
+
+                                        try {
+                                            if (fourthCursor.moveToFirst()) {
+                                                // Récupérez la date de la séance
+                                                String dateSeance = fourthCursor.getString(fourthCursor.getColumnIndex("date"));
+
+                                                // Ajoutez une nouvelle Performance à la liste
+                                                performances.add(new MesStatsActivity.Performance(dateSeance, poids, 0));
+                                            }
+                                        } finally {
+                                            // Assurez-vous de fermer le quatrième curseur
+                                            fourthCursor.close();
+                                        }
+                                    }
+                                } finally {
+                                    // Assurez-vous de fermer le troisième curseur
+                                    thirdCursor.close();
+                                }
+                            }
+                        }
+                    } finally {
+                        // Assurez-vous de fermer le deuxième curseur
+                        secondCursor.close();
+                    }
+                }
+            }
+        } finally {
+            // Assurez-vous de fermer le curseur pour éviter les fuites de ressources
+            cursor.close();
+        }
+
+        // Retournez la liste des performances
+        return performances;
+    }
+
+
+
+
+
+    public List<String[]> getDatesAndWeightsForExo(String nomExercice) {
+        List<String[]> datesAndWeights = new ArrayList<>();
+
+        // Requête pour récupérer les dates de séance et les poids pour un exercice spécifique
+        String query = "SELECT seance.date, exo_details.poids " +
+                "FROM seance " +
+                "JOIN exos_seance ON seance.id_seance = exos_seance.id_seance " +
+                "JOIN exo_details ON exos_seance.id_details = exo_details.id_details " +
+                "JOIN exos ON exos_seance.id_exo = exos.id_exo " +
+                "WHERE exos.nom = ? " +
+                "ORDER BY seance.date";
+
+        Cursor cursor = db.rawQuery(query, new String[]{nomExercice});
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                String date = cursor.getString(0);
+                double poids = cursor.getDouble(1);
+
+                // Ajoutez les données au tableau
+                String[] data = {date, String.valueOf(poids)};
+                datesAndWeights.add(data);
+
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        return datesAndWeights;
+    }
+
     public List<SeanceDetails> getAllSeances() {
         List<SeanceDetails> seancesList = new ArrayList<>();
         Cursor cursor = db.rawQuery("SELECT seance.id_seance, seance.date, GROUP_CONCAT(exos.description) AS description " +

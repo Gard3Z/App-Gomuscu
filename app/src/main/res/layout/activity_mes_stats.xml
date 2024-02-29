@@ -24,6 +24,7 @@
     <com.anychart.AnyChartView
         android:id="@+id/any_chart_view"
         android:layout_width="400dp"
+        android:layout_below="@+id/spinner_exercices"
         android:layout_height="400dp" />
 
 
