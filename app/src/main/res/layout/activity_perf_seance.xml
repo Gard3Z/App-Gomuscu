@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/primary">
 
     <ImageView
         android:id="@+id/logo"
         android:layout_width="250dp"
         android:layout_height="250dp"
-        android:src="@drawable/logoappli"
+        android:src="@drawable/logoapplication"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -40,7 +41,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Date"
-                    android:layout_marginTop="16dp" />
+                    android:textColor="@color/secondary"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="5dp"/>
 
                 <TextView
                     android:id="@+id/tv_date"
@@ -49,8 +52,9 @@
                     android:layout_marginLeft="100dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#fc0"
-                    android:layout_marginTop="16dp"/>
+                    android:textColor="@color/secondary"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="5dp"/>
 
             </LinearLayout>
 
@@ -60,7 +64,7 @@
                 android:layout_above="@+id/button_add_line"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#f00">
+                android:background="@color/primary">
 
                 <LinearLayout
                     android:id="@+id/line_container"
@@ -68,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:orientation="vertical"
-                    android:background="#ff0"
+                    android:background="@color/secondary"
                     android:maxHeight="40dp">
 
 
@@ -80,31 +84,38 @@
                 </LinearLayout>
             </ScrollView>
 
+
+
             <Button
                 android:id="@+id/button_add_line"
                 android:layout_centerHorizontal="true"
                 android:layout_above="@id/button_save"
-                android:layout_width="wrap_content"
+                android:layout_width="175dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:onClick="onAddLineClick"
                 android:text="Ajouter une ligne"
+                android:background="@drawable/button_custom"
+                android:textColor="@color/secondary"
                 android:layout_gravity="center_horizontal"/>
 
             <Button
                 android:id="@+id/button_save"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"
-                android:layout_width="wrap_content"
+                android:layout_width="175dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/button_custom"
-                android:text="Save"
+                android:textColor="@color/secondary"
+                android:text="Savegarder"
                 android:onClick="onSaveButtonClick" />
-
 
 
     </RelativeLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

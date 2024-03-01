@@ -1,17 +1,22 @@
 package com.example.gomuscu;
 
 import android.content.res.Resources;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,6 +40,7 @@ public class PerfSeanceActivity extends AppCompatActivity {
     private TextView tvDate;
     private DatabaseAcess db;
     private String hautDuCorpsExo ="";
+
 
 
     @Override
@@ -62,15 +68,19 @@ public class PerfSeanceActivity extends AppCompatActivity {
         try {
             JSONObject jsonObject = new JSONObject(json);
 
-            // Spinner pour choisir entre "haut du corps" et "bas du corps"
             Spinner spinnerTypeEntrainement = findViewById(R.id.spinner_type_entrainement);
+
+            // Utilisation d'un SimpleAdapter personnalisé avec un layout personnalisé pour les éléments du Spinner
             ArrayAdapter<String> adapterTypeEntrainement = new ArrayAdapter<>(
-                    this, android.R.layout.simple_spinner_item,
+                    this, R.layout.spinner_item_layout,
                     new String[]{"Haut du corps", "Bas du corps"});
             adapterTypeEntrainement.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerTypeEntrainement.setAdapter(adapterTypeEntrainement);
 
             // Gestionnaire d'événements pour le Spinner principal (type d'entraînement)
+
+            // Ajoutez cette ligne pour définir la couleur du texte
+            spinnerTypeEntrainement.getBackground().setColorFilter(getResources().getColor(R.color.secondary), PorterDuff.Mode.SRC_ATOP);
             spinnerTypeEntrainement.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -89,6 +99,7 @@ public class PerfSeanceActivity extends AppCompatActivity {
         }
 
     }
+
 
     @Override
     protected void onDestroy() {
@@ -205,9 +216,19 @@ public class PerfSeanceActivity extends AppCompatActivity {
 
 
     public void onSaveButtonClick(View view) {
+        Log.d("SaveButtonClick", "Button Clicked");
+
         // Obtenez la date actuelle pour la séance
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         String currentDate = dateFormat.format(new Date());
+
+        // Vérifiez si au moins un exercice a été ajouté
+        if (containerLayout.getChildCount() == 0) {
+            // Affichez un message indiquant que la liste d'exercices est vide
+            Toast.makeText(this, "Veuillez ajouter au moins un exercice.", Toast.LENGTH_SHORT).show();
+            Log.d("SaveButtonClick", "No exercises added");
+            return; // Sortez de la méthode pour éviter la sauvegarde
+        }
 
         // Créez une seule séance pour tous les exercices
         long seanceId = db.insertSeance(currentDate, "Type de séance à déterminer");
@@ -220,8 +241,19 @@ public class PerfSeanceActivity extends AppCompatActivity {
             EditText etSeries = rowLayout.findViewById(R.id.et_series);
 
             String selectedExo = (String) spinnerExercices.getSelectedItem();
-            double poids = Double.parseDouble(etPoids.getText().toString());
-            int serie = Integer.parseInt(etSeries.getText().toString());
+            double poids;
+            int serie;
+
+            // Vérifiez si les champs "poids" et "série" sont remplis
+            if (etPoids.getText().toString().isEmpty() || etSeries.getText().toString().isEmpty()) {
+                // Affichez un message indiquant que les champs doivent être remplis
+                Toast.makeText(this, "Veuillez remplir tous les champs.", Toast.LENGTH_SHORT).show();
+                Log.d("SaveButtonClick", "Fields not filled");
+                return; // Sortez de la méthode pour éviter la sauvegarde
+            } else {
+                poids = Double.parseDouble(etPoids.getText().toString());
+                serie = Integer.parseInt(etSeries.getText().toString());
+            }
 
             Log.d("ExerciseDetails", "Exercise: " + selectedExo + ", Weight: " + poids + ", Sets: " + serie);
 
@@ -241,12 +273,15 @@ public class PerfSeanceActivity extends AppCompatActivity {
             db.insertExosDetails(exosSeanceId, poids, serie);
         }
 
-        // Affichez un message ou effectuez d'autres actions après avoir sauvegardé les données
-        // ...
+        // Affichez un message indiquant que la sauvegarde a réussi
+        Toast.makeText(this, "Séance enregistrée avec succès.", Toast.LENGTH_SHORT).show();
+        Log.d("SaveButtonClick", "Session saved successfully");
 
         // Fermez l'activité ou effectuez d'autres actions en fonction de vos besoins
         finish();
     }
+
+
 
 
     public void OnclickLogo(View view) {
