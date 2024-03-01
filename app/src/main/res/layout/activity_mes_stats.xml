@@ -13,15 +13,17 @@
         android:layout_height="250dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="0dp"
-        android:src="@drawable/logoapplication"/>
+        android:src="@drawable/logoapplication"
+        android:onClick="OnclickLogo"/>
 
     <Spinner
         android:id="@+id/spinner_type_entrainement"
-        android:layout_below="@id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/logo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:popupBackground="@color/secondary" />
 
     <Spinner
         android:id="@+id/spinner_exercices"
@@ -29,7 +31,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/spinner_type_entrainement"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:popupBackground="@color/secondary"
+        android:spinnerMode="dropdown" />
 
     <com.anychart.AnyChartView
         android:id="@+id/any_chart_view"

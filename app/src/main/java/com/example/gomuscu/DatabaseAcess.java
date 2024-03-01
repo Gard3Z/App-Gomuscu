@@ -94,12 +94,12 @@ public class DatabaseAcess {
 
                 // Utilisez le résultat de la première requête pour effectuer une deuxième requête
                 if (result != null) {
-                    // Deuxième requête pour récupérer les id_details et id_seance de la table exos_seance, triée par date
+                    // Deuxième requête pour récupérer les id_details et id_seance de la table exos_seance, triée par id seance
                     Cursor secondCursor = db.rawQuery(
                             "SELECT id_details, id_seance " +
                                     "FROM exos_seance " +
                                     "WHERE id_exo = ? " +
-                                    "ORDER BY (SELECT date FROM seance WHERE id_seance = exos_seance.id_seance) DESC " +
+                                    "ORDER BY id_seance ASC " +
                                     "LIMIT 10", new String[]{result});
 
                     try {

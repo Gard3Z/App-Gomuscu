@@ -234,6 +234,7 @@ public class MesSeancesActivity extends AppCompatActivity {
 
 
     public void OnclickLogo(View view) {
+        Utilitaire.performVibration(this);
         this.finish();
     }
 }

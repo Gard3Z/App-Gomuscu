@@ -1,5 +1,6 @@
 package com.example.gomuscu;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import android.os.Vibrator;
+import android.widget.Toast;
+
 
 public class MesStatsActivity extends AppCompatActivity {
 
@@ -324,6 +329,12 @@ public class MesStatsActivity extends AppCompatActivity {
         // Afficher le graphique
         anyChartView.invalidate();
     }
+    public void OnclickLogo(View view) {
+        Utilitaire.performVibration(this);
+        Utilitaire.showNotification(this, "Test", "TEst");
+        this.finish();
+    }
+
 
 
 
