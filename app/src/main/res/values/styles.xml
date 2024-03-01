@@ -4,4 +4,7 @@
         <item name="android:background">@color/primary</item>
         <item name="android:textColor">@color/secondary</item>
     </style>
+    <style name="MySpinnerStyle" parent="Widget.AppCompat.Spinner">
+        <item name="android:textColor">@color/secondary</item>
+    </style>
 </resources>
