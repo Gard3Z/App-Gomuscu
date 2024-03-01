@@ -33,6 +33,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.os.Build;
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+
 
 public class PerfSeanceActivity extends AppCompatActivity {
     private LinearLayout containerLayout;
@@ -40,14 +49,14 @@ public class PerfSeanceActivity extends AppCompatActivity {
     private TextView tvDate;
     private DatabaseAcess db;
     private String hautDuCorpsExo ="";
-
-
+    private static final String CHANNEL_ID = "MyChannelID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perf_seance);
+
 
         db = DatabaseAcess.getInstance(getApplicationContext());
         db.open();
@@ -272,11 +281,11 @@ public class PerfSeanceActivity extends AppCompatActivity {
             // Insérez les détails de l'exercice associé à la séance
             db.insertExosDetails(exosSeanceId, poids, serie);
         }
+        Utilitaire.performVibration(this);
+        Utilitaire.showNotification(this, "Seance", "Bien enregistrée");
 
-        // Affichez un message indiquant que la sauvegarde a réussi
-        Toast.makeText(this, "Séance enregistrée avec succès.", Toast.LENGTH_SHORT).show();
-        Log.d("SaveButtonClick", "Session saved successfully");
-
+        // Affichez un message ou effectuez d'autres actions après avoir sauvegardé les données
+        // ...
         // Fermez l'activité ou effectuez d'autres actions en fonction de vos besoins
         finish();
     }
@@ -284,7 +293,10 @@ public class PerfSeanceActivity extends AppCompatActivity {
 
 
 
+
+
     public void OnclickLogo(View view) {
+        Utilitaire.performVibration(this);
         this.finish();
     }
 }

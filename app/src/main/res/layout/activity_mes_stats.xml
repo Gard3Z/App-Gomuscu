@@ -3,15 +3,27 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/primary"
     android:layout_height="match_parent"
     tools:context=".MesStatsActivity">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        android:src="@drawable/logoapplication"
+        android:onClick="OnclickLogo"/>
 
     <Spinner
         android:id="@+id/spinner_type_entrainement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/logo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:popupBackground="@color/secondary" />
 
     <Spinner
         android:id="@+id/spinner_exercices"
@@ -19,11 +31,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/spinner_type_entrainement"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:popupBackground="@color/secondary"
+        android:spinnerMode="dropdown" />
 
     <com.anychart.AnyChartView
         android:id="@+id/any_chart_view"
+        android:background="#2C3950"
         android:layout_width="400dp"
+        android:layout_below="@+id/spinner_exercices"
         android:layout_height="400dp" />
 
 
